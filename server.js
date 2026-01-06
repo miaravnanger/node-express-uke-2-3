@@ -3,7 +3,7 @@
 const path = require("path");
 const express = require("express");
 const populateRoutes = require("./routes").populateRoutes;
-
+ 
 const { configureCors } = require("./cors.config");
 
 const app = express();
