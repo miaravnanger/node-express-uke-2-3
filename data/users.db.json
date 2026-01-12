@@ -1,1 +1,37 @@
-[{"id":"44be16f1-5977-4e7a-92c4-3117a3e53950","email":"navn@user.com","password":"abc123","role":"user","lastLoggedIn":null}]
+[
+    {
+        "id": "44be16f1-5977-4e7a-92c4-3117a3e53950",
+        "email": "navnn@user.com",
+        "password": "abc123",
+        "role": "user",
+        "lastLoggedIn": null
+    },
+    {
+        "id": "ce01fd3b-0c6b-4968-b32b-d12b2c4b21ed",
+        "email": "navn@user.com",
+        "password": "abc123",
+        "role": "user",
+        "lastLoggedIn": null
+    },
+    {
+        "id": "2a0485b7-d16f-46da-b81e-530738530085",
+        "email": "navn.navnesen@user.com",
+        "password": "abc123",
+        "role": "user",
+        "lastLoggedIn": null
+    },
+    {
+        "id": "f2cb690a-dc01-4cd5-bdb2-d15f747a3600",
+        "email": "navn.navnesen2@user.com",
+        "password": "abc123",
+        "role": "user",
+        "lastLoggedIn": null
+    },
+    {
+        "id": "02375f9e-d42c-4e20-8655-c5e83c936fed",
+        "email": "navn.navnesen4@user.com",
+        "password": "abc123",
+        "role": "user",
+        "lastLoggedIn": null
+    }
+]

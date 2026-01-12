@@ -31,7 +31,7 @@ function createEmployee(employeeData) {
   employeeData.id = uuid();
   employees.push(employeeData);
 
-  writeJsonDB("employees", JSON.stringify(employees));
+  writeJsonDB("employees", employees);
 
   return { success: true, _inserted: employeeData };
 }
@@ -53,7 +53,7 @@ function updateEmployee(id, updatedEmployeeData) {
   const employee = { ...employees[index], ...updatedEmployeeData };
   employees[index] = employee;
 
-  writeJsonDB("employees", JSON.stringify(employees));
+  writeJsonDB("employees", employees);
 
   return { success: true, _updated: employee, _old };
 }
@@ -79,7 +79,7 @@ function upsertEmployee(id, upsertedEmployeeData) {
     }
 
     employees.push(upsertedEmployeeData);
-    writeJsonDB("employees", JSON.stringify(employees));
+    writeJsonDB("employees", employees);
     return { success: true, status: 201, _inserted: upsertedEmployeeData };
   }
 
@@ -90,7 +90,7 @@ function upsertEmployee(id, upsertedEmployeeData) {
   const employee = { ...employees[index], ...upsertedEmployeeData };
   employees[index] = employee;
 
-  writeJsonDB("employees", JSON.stringify(employees));
+  writeJsonDB("employees", employees);
 
   return {
     success: true,
@@ -111,7 +111,7 @@ function deleteEmployee(id) {
 
   employees.splice(index, 1);
 
-  writeJsonDB("employees", JSON.stringify(employees));
+  writeJsonDB("employees", employees);
 
   return { success: true, status: 204, _deletedId: id };
 }

@@ -1,4 +1,4 @@
-const { UserSchema } = require("../schema/user.schema");
+const { UserSchemaCreate, UserSchemaUpdate } = require("../schema/user.schema");
 const { readJsonDB, writeJsonDB } = require("../util");
 const { v4: uuid } = require("uuid");
 
@@ -20,25 +20,33 @@ function getUserById(id) {
   return users[index];
 }
 
-async function createUser(userData) {
+function createUser(userData) {
   delete userData.id;
 
-  const validUserData = UserSchema.parseAsync(userData).catch(error => ({success: false, error}));
+  try {
+    const validUserData = UserSchemaCreate.parse(userData);
+    const users = readJsonDB("users");
 
-  if (validUserData.success === false) {
-    return validUserData;
+    userExists(userData.email);
+
+    users.push(validUserData);
+
+    writeJsonDB("users", users);
+
+    return { success: true, _created: validUserData };
+  } catch (err) {
+    if (err.cause) {
+      throw err;
+    }
+
+    console.error(err);
+    throw new Error("Invalid user data.", { cause: 400 });
   }
-  const users = readJsonDB("users");
-
-  // userData.id = uuid();
-  users.push(validUserData);
-
-  writeJsonDB("users", JSON.stringify(users));
-
-  return { success: true, _created: validUserData };
 }
 
-function updateUser() {
+function updateUser(id, data) {
+  UserSchemaUpdate.parse(data);
+
   const users = readJsonDB("users");
   const index = users.map((e) => e.id).indexOf(id);
 
@@ -46,15 +54,11 @@ function updateUser() {
     throw new Error(`User with id ${id} doesn't exist!`, { cause: 404 });
   }
 
-  // ... Inndatavalidering ...
-
-  delete updatedUserData.id;
-
   const _old = { ...users[index] };
-  const user = { ...users[index], ...updatedUserData };
+  const user = { ...users[index], ...data };
   users[index] = user;
 
-  writeJsonDB("users", JSON.stringify(users));
+  writeJsonDB("users", users);
 
   return { success: true, _updated: user, _old };
 }
@@ -70,9 +74,16 @@ function deleteUser(id) {
 
   users.splice(index, 1);
 
-  writeJsonDB("users", JSON.stringify(users));
+  writeJsonDB("users", users);
 
   return { success: true, status: 204, _deletedId: id };
+}
+
+function userExists(email) {
+  const users = readJsonDB("users");
+  if (users.find((e) => e.email === email)) {
+    throw new Error("User already exists.", { cause: 409 });
+  }
 }
 
 module.exports = {
